@@ -11,6 +11,9 @@ namespace PlanYourHeist
 
             List<Dictionary<string, string>> team = new List<Dictionary<string, string>>();
 
+
+
+
             //first team member name
             Console.Write("Name> ");
             string name = Console.ReadLine();
@@ -30,22 +33,58 @@ namespace PlanYourHeist
                 };
                 team.Add(member);
 
+                Console.WriteLine();
+
                 //get the 2nd team member name
                 Console.Write("Name> ");
                 name = Console.ReadLine();
 
             }
 
-            Console.WriteLine($"Team Size: {team.Count}");
-            Console.WriteLine("Team Members");
+            Console.WriteLine();
+            Console.Write("Number of trail runs>");
+            int trailRunsCount = int.Parse(Console.ReadLine());
+            Console.WriteLine();
+            // Console.WriteLine($"Team Size: {team.Count}");
 
+
+
+            int teamSkill = 0;
             foreach (Dictionary<string, string> member in team)
             {
-                Console.WriteLine("------------------");
-                Console.WriteLine($"Name: {member["Name"]}");
-                Console.WriteLine($"Skill {member["skillLevel"]}");
-                Console.WriteLine($"Courage {member["courageFactor"]}");
-            };
+                string skillLevel = member["skillLevel"];
+                teamSkill = teamSkill + int.Parse(skillLevel);
+            }
+
+
+            for (int i = 0; i < trailRunsCount; i++)
+            {
+
+                Random generator = new Random();
+                int luckValue = generator.Next(-10, 11);
+
+                int bankDifficulty = 100;
+                bankDifficulty += luckValue;
+
+
+                Console.WriteLine($"Team skill level: {teamSkill}");
+                Console.WriteLine($"Bank difficulty: {bankDifficulty}");
+                Console.WriteLine($"Bank difficulty: {bankDifficulty}");
+
+
+                if (bankDifficulty > teamSkill)
+                {
+                    Console.WriteLine("Your heist has been impeded, run and never look back!");
+                    Console.WriteLine("---------------");
+                }
+                else
+                {
+                    Console.WriteLine("You're Rich!");
+                    Console.WriteLine("---------------");
+                }
+
+            }
+
 
         }
     }
