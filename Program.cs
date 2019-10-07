@@ -11,7 +11,9 @@ namespace PlanYourHeist
 
             List<Dictionary<string, string>> team = new List<Dictionary<string, string>>();
 
+            Console.Write("bank Difficulty> ");
 
+            int bankDifficulty = int.Parse(Console.ReadLine());
 
 
             //first team member name
@@ -56,6 +58,10 @@ namespace PlanYourHeist
                 teamSkill = teamSkill + int.Parse(skillLevel);
             }
 
+            Dictionary<string, int> report = new Dictionary<string, int>() {
+                {"Success", 0},
+                {"Failure", 0}
+            };
 
             for (int i = 0; i < trailRunsCount; i++)
             {
@@ -63,28 +69,35 @@ namespace PlanYourHeist
                 Random generator = new Random();
                 int luckValue = generator.Next(-10, 11);
 
-                int bankDifficulty = 100;
-                bankDifficulty += luckValue;
+                int trailRunBankDiffuiculty = bankDifficulty += luckValue;
 
 
                 Console.WriteLine($"Team skill level: {teamSkill}");
-                Console.WriteLine($"Bank difficulty: {bankDifficulty}");
-                Console.WriteLine($"Bank difficulty: {bankDifficulty}");
+                Console.WriteLine($"Bank difficulty: {trailRunBankDiffuiculty}");
 
 
                 if (bankDifficulty > teamSkill)
                 {
                     Console.WriteLine("Your heist has been impeded, run and never look back!");
+                    int failures = report["Failure"];
+                    report["Failure"] = failures + 1;
                     Console.WriteLine("---------------");
                 }
                 else
                 {
                     Console.WriteLine("You're Rich!");
+                    int success = report["Success"];
+                    report["Success"] = success + 1;
                     Console.WriteLine("---------------");
                 }
 
             }
 
+            Console.WriteLine();
+            Console.WriteLine("Heist Results");
+            Console.WriteLine("------------");
+            Console.WriteLine($"Successes: {report["Success"]}");
+            Console.WriteLine($"Failures: {report["Failure"]}");
 
         }
     }
