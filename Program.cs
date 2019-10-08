@@ -9,7 +9,7 @@ namespace PlanYourHeist
         {
             Console.WriteLine("Plan Your Heist");
 
-            List<Dictionary<string, string>> team = new List<Dictionary<string, string>>();
+            List<TeamMember> team = new List<TeamMember>();
 
             Console.Write("bank Difficulty> ");
 
@@ -28,11 +28,12 @@ namespace PlanYourHeist
                 Console.Write("courage Factor> ");
                 string courageFactor = (Console.ReadLine());
 
-                Dictionary<string, string> member = new Dictionary<string, string>() {
-                    {"Name", name},
-                    {"skillLevel", skillLevel},
-                    {"courageFactor", courageFactor}
-                };
+
+                TeamMember member = new TeamMember();
+                member.Name = name;
+                member.SkillLevel = int.Parse(skillLevel);
+                member.CourageFactor = double.Parse(courageFactor);
+
                 team.Add(member);
 
                 Console.WriteLine();
@@ -52,16 +53,12 @@ namespace PlanYourHeist
 
 
             int teamSkill = 0;
-            foreach (Dictionary<string, string> member in team)
+            foreach (TeamMember member in team)
             {
-                string skillLevel = member["skillLevel"];
-                teamSkill = teamSkill + int.Parse(skillLevel);
+                teamSkill += member.SkillLevel;
             }
 
-            Dictionary<string, int> report = new Dictionary<string, int>() {
-                {"Success", 0},
-                {"Failure", 0}
-            };
+            HeistReport report = new HeistReport();
 
             for (int i = 0; i < trailRunsCount; i++)
             {
@@ -79,25 +76,21 @@ namespace PlanYourHeist
                 if (bankDifficulty > teamSkill)
                 {
                     Console.WriteLine("Your heist has been impeded, run and never look back!");
-                    int failures = report["Failure"];
-                    report["Failure"] = failures + 1;
+                    report.FailureCount++;
                     Console.WriteLine("---------------");
                 }
                 else
                 {
                     Console.WriteLine("You're Rich!");
-                    int success = report["Success"];
-                    report["Success"] = success + 1;
+                    report.SuccessCount++;
                     Console.WriteLine("---------------");
                 }
 
             }
 
-            Console.WriteLine();
-            Console.WriteLine("Heist Results");
-            Console.WriteLine("------------");
-            Console.WriteLine($"Successes: {report["Success"]}");
-            Console.WriteLine($"Failures: {report["Failure"]}");
+            report.print();
+
+            
 
         }
     }
